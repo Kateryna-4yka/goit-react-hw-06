@@ -5,8 +5,10 @@ import { IoIosPaw } from "react-icons/io";
 import { BiPhoneIncoming } from "react-icons/bi";
 import { BiSolidCat } from "react-icons/bi";
 import {useId} from 'react';
-
 import css from './ContactForm.module.css';
+
+import { useDispatch} from 'react-redux';
+import {addContact} from '../../redux/contactsSlice';
 
 const ContactFormSchema = Yup.object().shape({
     name: Yup.string()
@@ -21,13 +23,15 @@ const ContactFormSchema = Yup.object().shape({
       .required("Required"),
   });
 
-export default function ContactForm ({funkAddUser}) {
+export default function ContactForm () {
 const idForm = nanoid();
 const idForEl = useId();
 
+const dispatch = useDispatch();
+
 const handleSubmit = (values, actions) => {
     const newContact = { id: nanoid(), ...values }; 
-    funkAddUser(newContact);
+    dispatch (addContact(newContact));
     actions.resetForm();
 };
 
